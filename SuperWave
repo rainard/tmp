@@ -1,0 +1,48 @@
+#coding=utf-8
+
+
+#股市行情数据获取和作图 -2
+from  Ashare import *          #股票数据库    https://github.com/mpquant/Ashare
+from  MyTT import *            #myTT麦语言工具函数指标库  https://github.com/mpquant/MyTT
+
+
+
+# QW1:=(HIGH+LOW+CLOSE*2)/4;
+# QW3:=EMA(QW1,10);
+# QW4:=STD(QW1,10);
+# QW5:=(QW1-QW3)*100/QW4;
+# QW6:=EMA(QW5,5);
+# RK7:=EMA(QW6,10);
+# 涨:EMA(QW6,10)+100/2-5
+
+# 实现上方10行到16行的通达信公式
+def SuperWave(CLOSE,HIGH,LOW,N=10):
+    QW1=((HIGH+LOW+CLOSE*2)/4).round(2)
+    print(RET(QW1,1))
+    QW3=(EMA(QW1,N)).round(2)
+    print(RET(QW3,1))
+    QW4=(STD(QW1,N)).round(2)
+    print(RET(QW4,1))
+    QW5=((QW1-QW3)*100/QW4).round(2)
+    print(RET(QW5,1))
+    QW6=(EMA(QW5,5)).round(2)
+    print(RET(QW6,1))
+    return EMA(QW6,10)+100/2-5
+
+if __name__=='__main__':
+    print("hello")
+    df=get_price('sz300468',frequency='1d',count=210)
+ 
+    CLOSE=df.close.values;           
+    HIGH=df.high.values;           
+    LOW=df.low.values
+    print(RET(SuperWave(CLOSE,HIGH,LOW,10)))
+
+
+
+
+
+
+
+
+
